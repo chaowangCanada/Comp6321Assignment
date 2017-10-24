@@ -4,9 +4,8 @@ function Q5()
 X = load('wpbcx.dat');
 Y = load('wpbcy.dat');
 
-extendX = [X, ones(size(X, 1),1)];
-W_int = 0.2*ones( size(extendX,2), 1 );  %initial guess
-J(extendX, Y, W_int)
+extendX = [ones(size(X, 2),1), X];
+W_int = ones( size(extendX,2), 1 );
 
 W = NewtonRaphson(extendX, Y, W_int, 20);
 
@@ -29,7 +28,7 @@ end
 end
 
 function errorF = J(X, Y, W)
-errorF = -sum(Y.*log(sigmoid(X*W)) + (1-Y).*log(1 - sigmoid(X*W)));
+res = -sum (Y.*log(sigmoid(X*W)) + (1-Y).*log(1 - sigmoid(X*W)));
 end
 
 function logFunc = sigmoid(x)
