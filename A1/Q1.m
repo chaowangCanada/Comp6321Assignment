@@ -27,7 +27,11 @@ disp('Linear regression error function'), disp(error);
 
 
 % Q 1.d polynomial regression
-function W = PolyRegress(X,Y,d,norm='no')
+function W = PolyRegress(X,Y,d,norm)
+  if nargin < 4
+    norm = 'no';
+  end  
+    
   x_extend = ExpandX(X,d);
   % normalize
   if strcmpi(norm, 'yes') ==1
@@ -92,9 +96,14 @@ title('best fit normalized 6 degree polinomial regression')
 xlabel('x')
 ylabel('y')
 
-function kFoldValidation(X,Y,d,k, norm = 'no')
-  if mod(size(X)(1),k) == 0
-    numElem = size(X)(1)/k;
+function kFoldValidation(X,Y,d,k,norm)
+    
+  if nargin < 5
+    norm = 'no';
+  end  
+
+  if mod(length(X),k) == 0
+    numElem = length(X)/k;
     Xgroup = zeros(numElem, 1, k);
     Ygroup = zeros(numElem, 1, k);
     
@@ -131,8 +140,6 @@ function kFoldValidation(X,Y,d,k, norm = 'no')
   end  
 end 
 
-
-
 % Q1.b linear regression
 function W = LinearRegression(X, Y)
   W = pinv(X'*X)*X'*Y;
@@ -140,7 +147,7 @@ end
 
 function norm = Normalize(X)
   norm = X(:,:);
-  for i = 1:size(X)(2);
+  for i = 1:size(X,2);
       norm(:,i) = X(:, i)./(max(abs(X(:,i))));
   end
 end 
@@ -158,7 +165,11 @@ function PlotPoly(X, Y, W, d, font)
   plot(gridX, gridY*W, font);
 end
 
-function J =errorF(X,Y,W,d, norm='no')
+function J =errorF(X,Y,W,d, norm)
+  if nargin < 5
+    norm = 'no';
+  end    
+    
   x_expand = ExpandX(X,d);
     % normalize
   if strcmpi(norm, 'yes') ==1
