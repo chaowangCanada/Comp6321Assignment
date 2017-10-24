@@ -1,14 +1,16 @@
 function Q5()
 
-%In this code, I will adopt Newton-Raphson algorithm to find the weight that minimum the cost function J(w)
+%a, use the iterative recursive least-squares: Newton-Raphson for logistic regression
 X = load('wpbcx.dat');
 Y = load('wpbcy.dat');
 
 extendX = [X, ones(size(X, 1),1)];
 W_int = 0.2*ones( size(extendX,2), 1 );  %initial guess
-J(extendX, Y, W_int)
+J(extendX, Y, W_int);
 
 W = NewtonRaphson(extendX, Y, W_int, 20);
+
+%b Gaussian naive Bayes classifier,
 
 
 function W=NewtonRaphson(X, Y, W_int,iter)
@@ -23,7 +25,7 @@ for i=1:iter
         R(j, j) = sigmoid(X(j,:)*W)*(1-sigmoid(X(j,:)*W));
     end
     W = pinv(Phi'*R*Phi)*Phi'*R*(Phi*W - pinv(R)*(sigmoid(Phi*W)-Y));
-    J(X, Y, W)
+    J(X, Y, W);
 end
 
 end
